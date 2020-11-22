@@ -456,7 +456,7 @@ install_tass:
         PWD2=`cd ${INSTALLTOP}/../tassl; pwd`;\
         if [ "$$PWD1" != "$$PWD2" ]; then rm -rf $(INSTALLTOP)/../tassl; ln -fs $(INSTALLTOP) $(INSTALLTOP)/../tassl; fi;
 	rm -rf $(GEN_SM2_CERT_FILE).sh
-	cp -R tassl_demo/ $(INSTALLTOP)/
+	cp -R tassl_demo $(INSTALLTOP)/
 	mv $(GEN_SM2_CERT_FILE).tmpl $(GEN_SM2_CERT_FILE).sh
 	mv $(SSL_MK_FILE).tmpl $(SSL_MK_FILE).sh
 	mv $(CRYPTO_MK_FILE).tmpl $(CRYPTO_MK_FILE).sh
@@ -478,15 +478,19 @@ install_tass:
 	sed -i '1i\LIB_DIR=$(INSTALLTOP)/lib'     $(CRYPTO_MK_FILE).sh
 	sed -i '1i\#!/bin/sh'                     $(CRYPTO_MK_FILE).sh
 	
-	echo ${INSTALLTOP}/lib > ${INSTALLTOP}/bin/tassl.conf
-	cp ${INSTALLTOP}/bin/tassl.conf /etc/ld.so.conf.d
-	ldconfig 
+	# echo ${INSTALLTOP}/lib > ${INSTALLTOP}/bin/tassl.conf
+	# on alpine
+	# mkdir -pv /etc/ld.so.conf.d
+	#
+	# cp ${INSTALLTOP}/bin/tassl.conf /etc/ld.so.conf.d/
+	# ldconfig
 
-	echo  'cp ${INSTALLTOP}/bin/tassl.conf /etc/ld.so.conf.d' >${INSTALLTOP}/bin/tass_init.sh
-	echo 'ldconfig' >>${INSTALLTOP}/bin/tass_init.sh
-	chmod u+x ${INSTALLTOP}/bin/tass_init.sh
+	# echo  'mkdir -pv /etc/ld.so.conf.d' >${INSTALLTOP}/bin/tass_init.sh
+	# echo  'cp ${INSTALLTOP}/bin/tassl.conf /etc/ld.so.conf.d/' >>${INSTALLTOP}/bin/tass_init.sh
+	# echo 'ldconfig' >>${INSTALLTOP}/bin/tass_init.sh
+	# chmod u+x ${INSTALLTOP}/bin/tass_init.sh
 
-	echo 'export LD_LIBRARY_PATH=${INSTALLTOP}/lib:$$LD_LIBRARY_PATH' >${INSTALLTOP}/bin/setting
+	# echo 'export LD_LIBRARY_PATH=${INSTALLTOP}/lib:$$LD_LIBRARY_PATH' >${INSTALLTOP}/bin/setting
 
 
 install_ssldirs:
